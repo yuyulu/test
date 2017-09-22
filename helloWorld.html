@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>hello world</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+</head>
+
+<body>
+    <div id="app">
+        {{ message }}
+    </div>
+    <br>
+    <div id="app-2">
+        <span v-bind:title="message" class="form-control">
+            鼠标悬停几秒钟查看此处状态绑定的提示信息！
+        </span>
+    </div>
+    <br>
+    <div id="app-3">
+        <p v-if="seen">now you see me</p>
+    </div>
+    <br>
+    <div id="app-4">
+        <ul>
+            <li v-for="todo1 in todo2">
+                {{ todo1.text }}
+            </li>
+        </ul>
+    </div>
+    <br>
+    <div id="app-5">
+        <p>{{ message }}</p>
+        <input type="text" v-model="message" class="form-control">
+    </div>
+    <br>
+    <div id='testClick'>
+        {{ totalPrice }}
+        <p>{{ message }}</p>
+        <button class="btn btn-info btn-sm" @click="greet">点击</button>
+    </div>
+    <div id="app-6">
+        <ul>
+            <!-- 创建一个 todo-item 组件的实例 -->
+            <todo-item v-for="item in groceryList" v-bind:todo="item" v-bind:key="item.id">
+            </todo-item>
+        </ul>
+    </div>
+    <!-- 引入js -->
+    <script src="vue.js"></script>
+    <script src="jquery.min.js"></script>
+    <script>
+    var app = new Vue({
+        el: '#app',
+        data: {
+            message: 'hello world!'
+        }
+    })
+    var app2 = new Vue({
+        el: '#app-2',
+        data: {
+            message: '页面加载于' + new Date().toLocaleString()
+        }
+    })
+    var app3 = new Vue({
+        el: '#app-3',
+        data: {
+            seen: false
+        }
+    })
+    $.ajax({
+        type: 'POST',
+        dataType: "json",
+        url: 'server.php',
+        success: function(data) {
+            var app4 = new Vue({
+                el: '#app-4',
+                data: {
+                    todo2: [
+                        { text: data[0] },
+                        { text: data[1] },
+                        { text: data[2] }
+                    ]
+                }
+            })
+        }
+    })
+    var app5 = new Vue({
+        el: '#app-5',
+        data: {
+            message: 'hello Vue'
+        }
+    })
+    Vue.component('todo-item', {
+        //todo-item 组件接受一个
+        //'prop',类似于一个自定义属性
+        //这个属性名为 todo.
+        props: ['todo'],
+        template: '<li>{{ todo.text }}</li>'
+    })
+    var app6 = new Vue({
+        el:'#app-6',
+        data: {
+            groceryList: [
+            {id:0,text:'蔬菜'},
+            {id:1,text:'奶酪'},
+            {id:2,text:'随便什么'}
+            ]
+        }
+    })
+    var vm = new Vue({
+        el: '#testClick',
+        data: {
+            message: '中国',
+            name: 'wodewode'
+        },
+        computed: {
+            totalPrice: function() {
+                var ret = 0;
+                for (var i = 12 - 1; i >= 0; i--) {
+                    ret += 10 * i;
+                }
+                return ret.toFixed(2);
+            }
+        },
+        //在 methods 对象中定义方法
+        methods: {
+            greet: function(event) {
+                this.message = this.message.split('').reverse().join('')
+                //方法内 this 指向 vm
+                alert(this.name + '!')
+                //event 是原生dom事件
+                alert(event.target.tagName)
+            }
+        }
+    })
+    </script>
+</body>
+
+</html>

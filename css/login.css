@@ -1,0 +1,14 @@
+.login_box{ 
+	width: 300px;
+	height: 300px;
+	margin: 100px auto;
+}
+.login_top{
+	margin-top: 20px;text-align: center; color: #272822; font-size: 1.4em;
+}
+.login_name{
+	margin: 30px auto;
+}
+.login_password{
+	margin: 30px auto;
+}

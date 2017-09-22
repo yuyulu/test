@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link href="css/mui.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+    <div class="login_box" id="app">
+        <div class="login_top">
+            登 录
+        </div>
+        <div class="login_name">
+            <input type="text" class="form-control" placeholder="请输入用户名" v-model.trim="phone">
+        </div>
+        <div class="login_password">
+            <input type="password" class="form-control" placeholder="请输入密码" v-model.trim="password">
+        </div>
+        <button class="btn btn-info btn-block" @click.prevent="login">登录</button>
+    </div>
+    <script src="js/vue.js"></script>
+    <script src="js/common.js" type="text/javascript" charset="utf-8"></script>
+    <script src="js/mui.min.js" type="text/javascript" charset="utf-8"></script>
+    <script>
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            phone: '',
+            password: ''
+        },
+        created: function() {
+            mui.init();
+        },
+        methods: {
+            login: function() {
+                if (!this.phone) {
+                    mui.toast('请输入用户名或手机号');
+                    return;
+                }
+                if (!this.password) {
+                    mui.toast('请输入密码');
+                    return;
+                }
+                var self = this;
+                mui.post(
+                        'loginAction.php', {
+                        phone: self.phone,
+                        password: self.password
+                    },
+                    function(ret) {
+                        if (ret.code == 200) {
+                            mui.toast('登录成功')
+                            clicked('index.html');
+                            return;
+                        }
+                    },
+                    'json'
+                );
+            }
+        }
+    })
+    </script>
+</body>
+
+</html>
