@@ -45,21 +45,8 @@
                     mui.toast('请输入密码');
                     return;
                 }
-                var self = this;
-                mui.post(
-                        'loginAction.php', {
-                        phone: self.phone,
-                        password: self.password
-                    },
-                    function(ret) {
-                        if (ret.code == 200) {
-                            mui.toast('登录成功')
-                            clicked('index.html');
-                            return;
-                        }
-                    },
-                    'json'
-                );
+                
+                clicked('index.html');
             }
         }
     })
